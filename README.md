@@ -40,14 +40,14 @@
 ---
 
 ## Install
-- Open terminal
-- Login to CLIMB
+- Login to BRYN
+- Start notebook server
+- Start a terminal session
+- Navigate to desired parent directory
 - Run:
 ```bash
-git clone https://github.com/ukhsa-collaboration/gpha-climb-sars-cov2-lineage-line-list.git
-cd gpha-climb-sars-cov2-lineage-line-list
-conda create -n covid-ll python=3.7.6
-pip install .
+git clone https://github.com/ukhsa-collaboration/gpha-mscape-orangebox-virus-reclassification.git
+
 ```
 > [!Tip]
 > It is reccomended to run in screen or TMUX session in case of crash
@@ -55,52 +55,25 @@ pip install .
 
 ## Usage
 ##### To run the pipeline
-  - Navigate to gpha-climb-sars-cov2-lineage-line-list folder
-  - Activate the environment
+  - Navigate to gpha-mscape-orangebox-virus-reclassification folder
+  - Run the NextFlow data pipeline
   - Run:
 ```bash
-cd gpha-climb-sars-cov2-lineage-line-list
-conda activate <env_name>
-covid-ll 
-(or python src/main.py)
+cd gpha-mscape-orangebox-virus-reclassification
+nextflow run main.nf 
 ```
-##### To download to local machine
-  - Open a new terminal on local machine
-  - Navigate to desired parent directory
-  - Run:
-```bash
-scp -o 'ProxyJump=<username>.<surname>@158.119.147.128' -i <path-to-CLIMB-ssh-key> -r climb-covid19-brownm2@bham.covid19.climb.ac.uk:gpha-climb-sars-cov2-lineage-line-list/<yyymmdd>-covid-ll .
-```
-> [!Tip]
-> Default path-to-CLIMB-ssh-key: ~/SSH_Key
-
-> [!Caution]
-> Make sure to activate the correct environment to avoid errors
-
-##### To run the notebook (notebook/lineage_line_groups_linkage.ipynb)
-  - Open editor of choice
-  - Open the notebook
-  - Copy the latest genomics_cell_merged file (from sharefolder, colindale_data/CPHL/Bioinformatics/01 Genomics Cell/03 Outbreaks/Epicell data release/) to relevant scan folder (optional)
-  - Run the notebook
-  - Fill in terminal prompts
-  - Send data to COVE
-> [!Tip]
-> Linux: when asked for user number only second value is required following running of -ls /run/user
 ---
 
 ## Commands
 > [!Note]
-> Commands have been removed for simplicity <br>
-> Paths have been hardcoded <br>
-> If change to path(s) required, see src modules
+> --output-dir
+> --input-dir
 ---
 
 ## Troubleshooting
 
 > [!Important]
 > Make sure all paths are entered correctly <br>
-> Make sure to activate the correct environment to avoid errors <br>
-> Linux: when asked for user number only second value is required following running of -ls /run/user <br>
 ---
 
 ## Change-log
