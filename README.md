@@ -29,7 +29,7 @@
 
 ## Features
 
-<img width="751" height="631" alt="image" src="https://github.com/user-attachments/assets/db9a08d0-a8e4-4ccf-8476-8d0d6c160289" />
+<img width="1051" height="700" alt="image" src="https://github.com/user-attachments/assets/db9a08d0-a8e4-4ccf-8476-8d0d6c160289" />
 
 ---
 
