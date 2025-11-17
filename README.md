@@ -1,5 +1,5 @@
 
-# <img src="https://upload.wikimedia.org/wikipedia/fi/6/69/UKHSA_Logo.svg.png" width="75" height="75"> GPHA CLIMB SARs-CoV-2 Lineage Line List 
+# <img src="https://upload.wikimedia.org/wikipedia/fi/6/69/UKHSA_Logo.svg.png" width="75" height="75"> GPHA mSCAPE OrangeBox Virus Reclassification
 ---
 
 ## Table of Contents
@@ -17,53 +17,26 @@
 
 ## Info
 
-| Name         | GPHA CLIMB SARs-CoV-2 Lineage Line List                                             |
+| Name         | GPHA mSCAPE OrangeBox Virus Reclassification                                        |
 |--------------|-------------------------------------------------------------------------------------|
-| Version      | 3.1                                                                                 |
-| Last Updated | 04.11.2025                                                                          |
-| Author(s)    | Mike Brown, Kate Howell, Ashley Shalloe                                             |
-| Contact      | michael.d.brown@ukhsa.gov.uk, kate.howell@ukhsa.gov.uk, ashley.shalloe@ukhsa.gov.uk |
-| Summary      | Data pipleine that produces epi-lineage linelist for COVE to produce epi-curve info for presentation at HS (to be part run on CLIMB) |
+| Version      | 0.1                                                                                 |
+| Last Updated | 17.11.2025                                                                          |
+| Author(s)    | Mike Brown                                                                          |
+| Contact      | michael.d.brown@ukhsa.gov.uk                                                        |
+| Summary      | NextFlow data pipleine for rerunning Kraken with comprehensive custom viral database|
 
 ---
 
 ## Features
 
-```mermaid
-graph LR
-A((CLIMB COVID)) -- get data --> B[all_metadata.csv]
-B -- pull columns --> C[central_sample_id,
-collection_date,
-adm1,
-usher_lineage,
-lineage,
-mutations]
-G((Sharedrive)) -- get data --> H[genomics_cell_merged]
-
-C --> D[collection_date]
-C --> E[mutations]
-C --> F[usher_lineage]
-
-D -- crop data --> Z[lineage_metadata]
-E -- mutations of interest --> Z[lineage_metadata]
-F -- lineage collapser --> Z[lineage_metadata]
-
-Z[lineage_metadata] --> i{merge}
-H[genomics_cell_merged] --> i{merge}
-
-i --> j(line_epi_line_list.csv)
-
-```
+<img width="751" height="631" alt="image" src="https://github.com/user-attachments/assets/db9a08d0-a8e4-4ccf-8476-8d0d6c160289" />
 
 ---
 
 ## Requirements
 > [!Warning]
 > To run it is neccessary to have obtained:
-> Access to CLIMB <br>
-> Access to Sharedrive folders: <br>
-> - 01 Genomics Cell (required) <br>
-> - COVE folder (optional) <br>
+> Access to BRYN <br>
 ---
 
 ## Install
