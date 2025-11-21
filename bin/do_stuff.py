@@ -1,0 +1,136 @@
+import pandas as pd
+import sys
+import os
+from utils import onyx_functions as of
+from onyx import OnyxConfig, OnyxClient, OnyxEnv, OnyxField
+
+
+def get_id_names(in_path:str) -> str, str:
+    climb_id = in_path.split("_")[0]
+    run_id = in_path.split("_")[1]
+    return climb_id, run_id
+
+
+def load_report(in_path:str) -> pd.DataFrame:
+    df = pd.read_csv(in_path,
+                     sep="\t",
+                     names=[
+                         "percent_coverage",
+                         "no_reads_covered",
+                         "no_reads_assigned",
+                         "taxid",
+                         "name"
+                     ]
+                    )
+    return df
+
+
+def load_results(in_path:str) ->pd.DataFrame:
+    df_res = pd.read_csv(in_path,
+                         sep="\t",
+                         names=[
+                             "isClassified",
+                             "header",
+                             "taxid",
+                             "length",
+                             "kmer_map"
+                         ]
+                        )
+    return df_res
+
+
+def isin_taxid_list(df:pd.DataFrame, list_taxid:list) -> pd.DataFrame:
+    df_in = df[df.taxid.isin(list_taxid)]
+    return df_in
+
+
+def search_rank(df:pd.DataFrame, rank:["Species", "Genus", "Family", "Order", "Kingdom", "Phylum"]) -> pd.DataFrame:
+    """take first letter of rank to search for (as seen in report results)."""
+    df_rank = df[df.rank.str.contains(rank[0], case=False, na=False)]
+    return df_rank
+# may need to change ^ to .eq other .str.contains
+
+
+def search_species(df:pd.DataFrame) -> pd.DataFrame:
+    df_species = df[df.rank.str.contains("S", case=False, na=False)]
+    return df_species
+
+
+def get_kmer_matches(df_filtered_report:pd.DataFrame, df_results:pd.DataFrame, climb_id:str, run_id:str) -> pd.DataFrame:
+    """for climb_id/run_id that return species level match(es) create dataframe of data where kmer matches for viral species
+    occur. This is to be used in the info json."""
+    list_taxid = list(df_filtered_report.taxid)
+    df_match = [lambda x: df_results.taxid.isin(x) for x in list_taxid]
+    return df_match
+
+def create_json(): 
+    pass
+
+
+def push_json(json, push_path:str):
+    pass
+
+
+## DG's updated code -> entry (waiting for confirmation of upload instructions)
+
+def update_analysis_table():
+    # Instantiate the class
+    onyx_analysis = oa.OnyxAnalysis()
+
+    # Add details on the analysis
+    onyx_analysis.add_analysis_details(
+        analysis_name="virus-reclassification",
+        analysis_description="""Results of Kraken2 with custom virus Database"""
+        )
+
+    # Add package metadata - takes from package name if code base is pip installed
+    onyx_analysis.add_package_metadata(package_name = "orangebox-virus-reclassification")
+
+    # Add methods information e.g. QC thresholds used. Must be in dictionary format
+    methods_fail = onyx_analysis.add_methods(methods_dict = example_thresholds)
+
+    # Add results information e.g. QC results. Must be in dictionary format. More detailed
+    # results to be added in output files/report.
+    results_fail = onyx_analysis.add_results(top_result = headline_result, results_dict = example_results)
+
+    # Add climb ID - field is either mscape_records or synthscape_records
+    onyx_analysis.add_server_records(sample_id = record_id, server_name = "synthscape")
+
+    # Add location of output files. Add report field if single file provided, add outputs field
+    # if results directory is provided
+    output_fail = onyx_analysis.add_output_location(result_file)
+
+    # Check all required fields are present and that there are no invalid fields.
+    # Select publish_analysis = True if you are checking an analysis object ready for
+    # publication, publish_analysis = False if you are checking an analysis object that will
+    # not be published yet and so will be missing the outputs/report field
+    required_field_fail, attribute_fail = onyx_analysis.check_analysis_object(publish_analysis = True)
+
+    # Fail statuses can be checked and actioned as appropriate with e.g. logging, raising an
+    # error etc using something like:
+    if any([methods_fail, results_fail, output_fail, required_field_fail, attribute_fail]):
+        logging.error("Incorrect attribute in analysis object, check logs for details")
+        exitcode = 1
+    else:
+        logging.info("Correct attributes in analysis object")
+        exitcode = 0
+
+
+
+if __name__ == "__main__":
+    """a main function"""
+    parser = argparse.ArgumentParser(description="yes.")
+    parser.add_argument('--report', type=str, required=True, help="path toKraken report file")
+    parser.add_argument('--results', type=str, required=True, help="path to Kraken results file")
+    parser.add_argument('--s3-bucket', type=str, required=True, help="path to s3-bucket")
+    args = parser.parse_args()
+
+    df = load_report(in_path=args.report)
+    df = isin_taxid_list(df=df,
+                        list_taxid=[])
+    df = search_rank(df=df,
+                     rank="Species")
+    json = create_json()
+    push_json = (json,
+               args.s3-bucket)
+    
