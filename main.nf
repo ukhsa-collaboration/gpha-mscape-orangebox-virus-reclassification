@@ -7,6 +7,6 @@ include { ANALYSIS } from './modules/run_kraken_analysis.nf'
 
 
 workflow {
-     // Handle either samplesheet or climb id
-     KRAKEN(params.arg_fastq, params.arg_kraken_database test_climbid, test_runid)
+     // KRAKEN(params.arg_fastq, params.arg_kraken_database, params.test_climbid, params.test_runid)
+     ANALYSIS(params.test_climbid, params.test_runid, params.test_kraken_report, params.test_kraken_results, "test", params.db_path)
 }

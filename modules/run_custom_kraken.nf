@@ -13,12 +13,12 @@ process KRAKEN {
         val runid  // need to include -> climbid_runid_kraken_results.txt
 
     output:
-        file "kraken_results.txt", emit: results
-        file "kraken_report.txt", emit: report
+        path "${climbid}_${runid}_kraken_results.txt", emit: results
+        path "${climbid}_${runid}_kraken_report.txt", emit: report
 
     script:
     """
-    kraken2 --db ${customdb} ${fastq} --output ${climbid}_${run_id}_kraken_results.txt --report ${climbid}_${run_id}_kraken_report.txt
+    kraken2 --db ${customdb} ${fastq} --output ${climbid}_${runid}_kraken_results.txt --report ${climbid}_${runid}_kraken_report.txt
     """
 }
 
