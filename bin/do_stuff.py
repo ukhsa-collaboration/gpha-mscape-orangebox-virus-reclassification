@@ -71,6 +71,15 @@ def is_virus(df:pd.DataFrame, database_path:str) -> pd.DataFrame:
     return df
 
 
+def virus_presence(df:pd.DataFrame, run_id:str climb_id:str):
+    """check to see if there are any return viral reads based on the length of passed DataFrame. If there are non-pass. If present create json"""
+    if len(df) <= 0:
+        pass
+    elif len(df) > 0:
+        df.to_csv(f"{run_id}_{climb_id}_midpoint.csv")
+
+
+
 def get_kmer_matches(df_filtered_report:pd.DataFrame, df_results:pd.DataFrame, climb_id:str, run_id:str) -> pd.DataFrame:
     """for climb_id/run_id that return species level match(es) create dataframe of data where kmer matches for viral species
     occur. This is to be used in the info json."""
