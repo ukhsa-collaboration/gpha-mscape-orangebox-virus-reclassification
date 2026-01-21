@@ -3,6 +3,15 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+
+.nextflow*
+*.vscode
+*.swp
+*.log
+*.tmp
+.nf-test
+
+
 # C extensions
 *.so
 
