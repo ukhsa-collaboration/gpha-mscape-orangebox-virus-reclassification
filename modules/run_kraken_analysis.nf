@@ -15,12 +15,12 @@ process ANALYSIS {
         val db_path
 
     output:
-        file "midpoint.csv"
+        file "data.json"
 
     
     script:
     """
-    do_stuff.py --report ${kraken_report} --results ${kraken_results} --outdir ${directory} --climb-id ${climbid} --run-id ${runid} --s3-bucket "" --database ${db_path}
+    do_stuff.py --report ${kraken_report} --results ${kraken_results} --outdir ${directory} --climbid ${climbid} --runid ${runid} --s3-bucket "" --database ${db_path}
 
     """
 

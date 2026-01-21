@@ -6,6 +6,7 @@ import os
 import argparse
 from pathlib import Path
 from taxaplease.taxaplease import TaxaPlease
+import json
 # from utils import onyx_functions as of
 # from onyx import OnyxConfig, OnyxClient, OnyxEnv, OnyxField
 
@@ -65,30 +66,46 @@ def search_species(df:pd.DataFrame) -> pd.DataFrame:
 
 def is_virus(df:pd.DataFrame, database_path:str) -> pd.DataFrame:
     """initiate TaxaPlease and use isVirus function (->bool) to determine if taxids found are listed as viruses in NCBI database."""
-    print(database_path)
     taxaPlease = TaxaPlease(database=database_path)
     df = df.assign(is_virus=df['taxid'].apply(lambda x: taxaPlease.isVirus(x)))
     return df
 
 
-def virus_presence(df:pd.DataFrame, run_id:str climb_id:str):
-    """check to see if there are any return viral reads based on the length of passed DataFrame. If there are non-pass. If present create json"""
-    if len(df) <= 0:
-        pass
+def virus_presence(df:pd.DataFrame):  #, rank:str, run_id:str, climb_id:str):
+    """check to see if there are any return viral reads based on the length of passed DataFrame."""
+    if len(df) == 0:
+        return False
     elif len(df) > 0:
-        df.to_csv(f"{run_id}_{climb_id}_midpoint.csv")
-
+        # df.to_csv(f"{run_id}_{climb_id}_{rank}_virus_presence.csv")
+        return True
 
 
 def get_kmer_matches(df_filtered_report:pd.DataFrame, df_results:pd.DataFrame, climb_id:str, run_id:str) -> pd.DataFrame:
     """for climb_id/run_id that return species level match(es) create dataframe of data where kmer matches for viral species
     occur. This is to be used in the info json."""
     list_taxid = list(df_filtered_report.taxid)
-    df_match = [lambda x: df_results.taxid.isin(x) for x in list_taxid]
+    # df_match = [lambda x: df_results.taxid.isin(x) for x in list_taxid]
+    df_match = df_filtered_report[df_filtered_report["taxid"].isin(list_taxid)]
     return df_match
 
-def create_json(): 
-    pass
+
+def create_json(run_id:str, climb_id:str, df_genus: pd.DataFrame, df_species: pd.DataFrame, genus_presence:bool, species_presence:bool): 
+    json_setup = {
+        "climb_id": climb_id,
+        "run_id": run_id,
+        "virus_presence_genus": genus_presence,
+        "virus_presence_species": species_presence,
+        "genus": ', '.join(df_genus["name"].str.strip()),
+        "genus_taxids": ', '.join(df_genus["taxid"].astype(str)),
+        "species": ', '.join(df_species["name"].str.strip()),
+        "species_taxids": ', '.join(df_species["taxid"].astype(str)),
+        # "kmer_matches": list[df_virus_kmer_matches["kmer_map"]]
+    }
+    print(json_setup)
+    # json_file = json.dump(json_setup)
+    with open('data.json', 'w') as f:
+        json.dump(json_setup, f)
+    return json_setup
 
 
 def push_json(json, push_path:str):
@@ -147,8 +164,8 @@ if __name__ == "__main__":
     parser.add_argument('--report', type=str, required=True, help="path to Kraken report file")
     parser.add_argument('--results', type=str, required=True, help="path to Kraken results file")
     parser.add_argument('--s3-bucket', type=str, required=True, help="path to s3-bucket")
-    parser.add_argument('--climb-id', type=str, required=False, help="climb id")
-    parser.add_argument('--run-id', type=str, required='--climb-id' in sys.argv, help="run id")
+    parser.add_argument('--climbid', type=str, required=False, help="climb id")
+    parser.add_argument('--runid', type=str, required='--climb-id' in sys.argv, help="run id")
     parser.add_argument('--outdir', type=str, required=False, help="output directory path")
     parser.add_argument('--database', type=str, required=True, help='input databse path')
     
@@ -157,11 +174,25 @@ if __name__ == "__main__":
     df = load_report(in_path=args.report)
     #df = isin_taxid_list(df=df,
     #                    list_taxid=[])
-    df = search_rank(df=df,
-                     rank="Species")
-    df = is_virus(df, args.database)
-    json = create_json()
-    df.to_csv("midpoint.csv")
+    
+    df_virus = is_virus(df, args.database)
+    
+    df_virus_genus = search_rank(df=df_virus,
+                                 rank="Genus")
+    
+    df_virus_species = search_rank(df=df_virus,
+                                   rank="Species")
+    
+    df_virus_species = is_virus(df_virus_species, args.database)
+        
+    json = create_json(run_id=args.runid, 
+                       climb_id=args.climbid, 
+                       df_genus=df_virus_genus, 
+                       df_species=df_virus_species, 
+                       genus_presence=virus_presence(df_virus_genus), 
+                       species_presence=virus_presence(df_virus_species))
+                       
+    #json = create_json()
     #push_json = (json,
     #           args.s3-bucket)
     
