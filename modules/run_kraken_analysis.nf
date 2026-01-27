@@ -27,7 +27,7 @@ process ANALYSIS {
     taxonkit lineage --data-dir "${db_path}" -R taxa.txt  > lineages.txt
     aggregate_lineages_bracken.py -i "lineages.txt" -b "taxacounts.txt" -u "${kraken_report}" -p "temp_kraken"
     file1=`cat *.json`
-    echo "{"'"${climbid}"'": "\$file1"}" >> "${climbid}_viral_reclassifier.kraken.json"
+    echo "{"'${climbid}'": "\$file1"}" >> "${climbid}_viral_reclassifier.kraken.json"
     """
 
     
