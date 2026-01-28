@@ -19,8 +19,8 @@
 
 | Name         | GPHA mSCAPE OrangeBox Virus Reclassification                                        |
 |--------------|-------------------------------------------------------------------------------------|
-| Version      | 0.1                                                                                 |
-| Last Updated | 17.11.2025                                                                          |
+| Version      | 1.0.1                                                                               |
+| Last Updated | 28.02.2026                                                                          |
 | Author(s)    | Mike Brown                                                                          |
 | Contact      | michael.d.brown@ukhsa.gov.uk                                                        |
 | Summary      | NextFlow data pipleine for rerunning Kraken with comprehensive custom viral database|
@@ -66,14 +66,21 @@ nextflow run main.nf
 
 ## Commands
 > [!Note]
-> --output-dir
-> --input-dir
+> Arguments can be filled out in the config/params.config file
+
+  - --fastq - original fastq input
+  - --kraken_database - path to custom Kraken database folder
+  - --output - output diirectory pathr
+  - --climbid - CLIMB ID
+  - --runid - Run ID
+  - --db_path - path to folder containing taxa DB files
 ---
 
 ## Troubleshooting
 
 > [!Important]
 > Make sure all paths are entered correctly <br>
+> Make sure necessary DB files are within directed folders
 ---
 
 ## Change-log
@@ -82,10 +89,7 @@ nextflow run main.nf
 
 ## To-do
 
-- [x] move related lineage grouping files into current repo
-- [x] restructure repo to follow of GPHA standards
-- [x] reformat auto_linelist.py and move away from stdout calls
-- [ ] \(Optional) convert lineage_line_groups_linkage.ipynb notebook -> script
+- [ ] \(Optional) run ruff linter on .py files
 - [ ] \(Optional) task
 
 ---
