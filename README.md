@@ -70,7 +70,7 @@ nextflow run main.nf
 
   - --fastq - path to fastq files
   - --kraken_database - path to custom Kraken database folder
-  - --output - output diirectory pathr
+  - --output - output diirectory path
   - --runid - Run ID
   - --db_path - path to folder containing taxa DB files
 ---
