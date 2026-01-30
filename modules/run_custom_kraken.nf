@@ -9,16 +9,16 @@ process KRAKEN {
     input:
         val fastq
         val customdb
-        val climbid  // need to include -> climbid_kraken_results.txt and climb_kraken_report.txt
+        // val climbid  // need to include -> climbid_kraken_results.txt and climb_kraken_report.txt
         val runid  // need to include -> climbid_runid_kraken_results.txt
 
     output:
-        path "${climbid}_${runid}_kraken_results.txt", emit: kresults
-        path "${climbid}_${runid}_kraken_report.txt", emit: kreport
+        path "${fastq.baseName}_${runid}_kraken_results.txt", emit: kresults
+        path "${fastq.baseName}_${runid}_kraken_report.txt", emit: kreport
+        val "${fastq.baseName}", emit: climbid
 
     script:
     """
-    kraken2 --db ${customdb} ${fastq} --output ${climbid}_${runid}_kraken_results.txt --report ${climbid}_${runid}_kraken_report.txt
+    kraken2 --db ${customdb} ${fastq} --output ${fastq.baseName}_${runid}_kraken_results.txt --report ${fastq.baseName}_${runid}_kraken_report.txt
     """
 }
-

@@ -14,20 +14,20 @@ process ANALYSIS {
 
     output:
         // file "data.json"
-        file "taxacounts.txt"
-        file "taxa.txt"
-        file "lineages.txt"
+        file "${climbid}_taxacounts.txt"
+        file "${climbid}_taxa.txt"
+        file "${climbid}_lineages.txt"
         file "${climbid}_viral_reclassifier.kraken.json"
 
     
     script:
     """
-    cat "${kraken_report}" | cut -f5,3 | tail -n+3 > taxacounts.txt
-    cat "${kraken_report}" | cut -f5 | tail -n+3 > taxa.txt
-    taxonkit lineage --data-dir "${db_path}" -R taxa.txt  > lineages.txt
-    aggregate_lineages_bracken.py -i "lineages.txt" -b "taxacounts.txt" -u "${kraken_report}" -p "temp_kraken"
+    cat "${kraken_report}" | cut -f5,3 | tail -n+3 > "${climbid}_taxacounts.txt"
+    cat "${kraken_report}" | cut -f5 | tail -n+3 > "${climbid}_taxa.txt"
+    taxonkit lineage --data-dir "${db_path}" -R "${climbid}_taxa.txt"  > "${climbid}_lineages.txt"
+    aggregate_lineages_bracken.py -i "${climbid}_lineages.txt" -b "${climbid}_taxacounts.txt" -u "${kraken_report}" -p "temp_kraken"
     file1=`cat *.json`
-    echo "{"'${climbid}'": "\$file1"}" >> "${climbid}_viral_reclassifier.kraken.json"
+    echo "{"'"${climbid}"'": "\$file1"}" >> "${climbid}_viral_reclassifier.kraken.json"
     """
 
     

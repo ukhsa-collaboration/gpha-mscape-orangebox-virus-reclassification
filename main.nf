@@ -5,6 +5,7 @@ include { ANALYSIS } from './modules/run_kraken_analysis.nf'
 
 
 workflow {
-     KRAKEN(params.fastq, params.kraken_database, params.climbid, params.runid)
-     ANALYSIS(params.climbid, params.runid, KRAKEN.out.kreport, KRAKEN.out.kresults, params.db_path)
+     fasta = channel.fromPath(params.fastq)
+     KRAKEN(fasta, params.kraken_database, params.runid)
+     ANALYSIS(KRAKEN.out.climbid, params.runid, KRAKEN.out.kreport, KRAKEN.out.kresults, params.db_path)
 }
