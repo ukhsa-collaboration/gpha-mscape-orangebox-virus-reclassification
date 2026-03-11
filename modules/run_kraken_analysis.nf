@@ -32,8 +32,33 @@ process ANALYSIS {
 }
 
 
-process ONYX_JSON {
+process DETECT_VIRUS {
     container 'ghcr.io/ukhsa-collaboration/gpha-mscape-taxaplease:2.1.1'
+    publishDir "results", mode: "copy"
+    
+    input:
+        val climbid
+        val runid
+        path kraken_report
+        path kraken_results
+        val tp_db_path
+        
+    output:
+        //file "${climbid}_taxacounts.txt"
+        //file "${climbid}_taxa.txt"
+        //file "${climbid}_lineages.txt"
+        //file "${climbid}.VIRUS_RECLASSIFICATION.analysis_fields.json"
+        path "${climbid}_data.json", emit: detection_json
+    
+    script:
+    """  
+    virus_presence.py --report ${kraken_report} --results ${kraken_results} --climbid ${climbid} --runid ${runid} --database ${tp_db_path}
+    """
+}
+
+
+process ONYX_JSON {
+    container 'ghcr.io/ukhsa-collaboration/gpha-mscape-onyx-analysis-helper:pr-2'
     publishDir "results", mode: "copy"
     
     input:
