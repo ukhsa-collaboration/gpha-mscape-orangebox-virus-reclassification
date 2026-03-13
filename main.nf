@@ -1,11 +1,14 @@
 #!/usr/bin/env nextflow
 
-include { KRAKEN } from './modules/run_custom_kraken.nf'
-include { ANALYSIS } from './modules/run_kraken_analysis.nf'
-
+include { KRAKEN } from './modules/viral_kraken.nf'
+include { ANALYSIS } from './modules/kraken_analysis.nf'
+include { ONYX_JSON } from './modules/kraken_analysis.nf'
+include { DETECT_VIRUS } from './modules/kraken_analysis.nf'
 
 workflow {
-     fasta = channel.fromPath(params.fastq)
-     KRAKEN(fasta, params.kraken_database, params.runid)
+     fastq = channel.fromPath(params.fastq)
+     KRAKEN(fastq, params.kraken_database, params.runid)
      ANALYSIS(KRAKEN.out.climbid, params.runid, KRAKEN.out.kreport, KRAKEN.out.kresults, params.db_path)
+     DETECT_VIRUS(KRAKEN.out.climbid, params.runid, KRAKEN.out.kreport, KRAKEN.out.kresults, params.tp_db_path)
+     ONYX_JSON(KRAKEN.out.climbid, params.runid, KRAKEN.out.kreport, KRAKEN.out.kresults, ANALYSIS.out.json, DETECT_VIRUS.out.detection_json, params.fastq, params.kraken_database)
 }

@@ -13,9 +13,9 @@ process KRAKEN {
         val runid  // need to include -> climbid_runid_kraken_results.txt
 
     output:
-        path "${fastq.baseName}_${runid}_kraken_results.txt", emit: kresults
-        path "${fastq.baseName}_${runid}_kraken_report.txt", emit: kreport
-        val "${fastq.baseName}", emit: climbid
+        path "${fastq.getBaseName(1)}_${runid}_kraken_results.txt", emit: kresults
+        path "${fastq.getBaseName(1)}_${runid}_kraken_report.txt", emit: kreport
+        val "${fastq.getBaseName(3)}", emit: climbid
 
     script:
     """

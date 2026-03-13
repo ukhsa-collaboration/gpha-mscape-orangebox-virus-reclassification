@@ -72,7 +72,8 @@ nextflow run main.nf
   - --kraken_database - path to custom Kraken database folder
   - --output - output diirectory path
   - --runid - Run ID
-  - --db_path - path to folder containing taxa DB files
+  - --tp_db_path - path to folder containing TaxaPlease database
+  - --db_path - path to folder containing taxa database files
 ---
 
 ## Troubleshooting
