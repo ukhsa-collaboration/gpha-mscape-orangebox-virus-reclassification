@@ -1,79 +1,84 @@
 
-# <img src="https://upload.wikimedia.org/wikipedia/fi/6/69/UKHSA_Logo.svg.png" width="75" height="75"> GPHA mSCAPE OrangeBox Virus Reclassification
+# <img src="assests/UKHSA_Logo.png" width="75" height="75"> GPHA mSCAPE OrangeBox Kraken Reclassification (K^2)
+
 ---
 
 ## Table of Contents
 
-- [Info](#info)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Install](#install)
-- [Usage](#usage)
-- [Commands](#commands)
-- [Troubleshooting](#troubleshooting)
-- [Change-log](#change-log)
-- [To-do](#to-do)
+- [ GPHA mSCAPE OrangeBox Kraken Reclassification (K^2)](#-gpha-mscape-orangebox-kraken-reclassification-k2)
+  - [Table of Contents](#table-of-contents)
+  - [Info](#info)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [To run the pipeline](#to-run-the-pipeline)
+  - [Commands](#commands)
+  - [Troubleshooting](#troubleshooting)
+  - [Change-log](#change-log)
+  - [To-do](#to-do)
+
 ---
 
 ## Info
 
 | Name         | GPHA mSCAPE OrangeBox Virus Reclassification                                        |
 |--------------|-------------------------------------------------------------------------------------|
-| Version      | 1.0.1                                                                               |
-| Last Updated | 28.02.2026                                                                          |
-| Author(s)    | Mike Brown                                                                          |
-| Contact      | michael.d.brown@ukhsa.gov.uk                                                        |
-| Summary      | NextFlow data pipleine for rerunning Kraken with comprehensive custom viral database|
+| Version      | 2.0.1                                                                               |
+| Last Updated | 17.10.2027                                                                          |
+| Author(s)    | GPHA                                                                                |
+| Summary      | NextFlow data pipeline for mSCAPE rerunning of Kraken with custom database and producing results|
 
 ---
 
 ## Features
 
-<img width="1051" height="700" alt="image" src="https://github.com/user-attachments/assets/db9a08d0-a8e4-4ccf-8476-8d0d6c160289" />
-
 ---
 
 ## Requirements
+
 > [!Warning]
-> To run it is neccessary to have obtained:
-> Access to BRYN <br>
+
 ---
 
 ## Install
-- Login to BRYN
-- Start notebook server
+
 - Start a terminal session
 - Navigate to desired parent directory
 - Run:
+
 ```bash
 git clone https://github.com/ukhsa-collaboration/gpha-mscape-orangebox-virus-reclassification.git
 
 ```
+
 > [!Tip]
 > It is reccomended to run in screen or TMUX session in case of crash
 ---
 
 ## Usage
-##### To run the pipeline
-  - Navigate to gpha-mscape-orangebox-virus-reclassification folder
-  - Run the NextFlow data pipeline
-  - Run:
+
+## To run the pipeline
+
 ```bash
 cd gpha-mscape-orangebox-virus-reclassification
 nextflow run main.nf 
 ```
+
 ---
 
 ## Commands
+>
 > [!Note]
 > Arguments can be filled out in the config/params.config file
 
-  - --fastq - path to fastq files
-  - --kraken_database - path to custom Kraken database folder
-  - --output - output diirectory path
-  - --runid - Run ID
-  - --tp_db_path - path to folder containing TaxaPlease database
-  - --db_path - path to folder containing taxa database files
+- --fastq - path to fastq files
+- --kraken_database - path to custom Kraken database folder
+- --output - output directory path
+- --runid - Run ID
+- --tp_db_path - path to folder containing TaxaPlease database
+- --db_path - path to folder containing taxa database files
+
 ---
 
 ## Troubleshooting
