@@ -1,6 +1,5 @@
 #!/usr/bin/env nextflow
 
-
 process ANALYSIS {
     container 'community.wave.seqera.io/library/biopython_taxonkit:f509bdb54ad22eed'
     publishDir "results", mode: 'copy'
