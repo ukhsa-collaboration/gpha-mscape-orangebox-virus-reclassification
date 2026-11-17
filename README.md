@@ -21,15 +21,12 @@
 |--------------|-------------------------------------------------------------------------------------|
 | Version      | 1.0.1                                                                               |
 | Last Updated | 28.02.2026                                                                          |
-| Author(s)    | Mike Brown                                                                          |
-| Contact      | michael.d.brown@ukhsa.gov.uk                                                        |
+| Author(s)    | GPHA                                                                                |
 | Summary      | NextFlow data pipleine for rerunning Kraken with comprehensive custom viral database|
 
 ---
 
 ## Features
-
-<img width="1051" height="700" alt="image" src="https://github.com/user-attachments/assets/db9a08d0-a8e4-4ccf-8476-8d0d6c160289" />
 
 ---
 
