@@ -1,5 +1,4 @@
-
-# <img src="assests/UKHSA_Logo.png" width="75" height="75"> GPHA mSCAPE OrangeBox Kraken Reclassification (K^2)
+# <img src="assests/UKHSA_Logo.png" width="75" alt="UKHSA Logo"> GPHA mSCAPE OrangeBox Kraken Reclassification (K^2)
 
 ---
 
